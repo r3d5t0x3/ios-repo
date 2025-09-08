@@ -4,7 +4,6 @@ on:
     branches: [main]
   workflow_dispatch:
 
-# 커밋/푸시할 권한
 permissions:
   contents: write
 
@@ -13,8 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: Ensure docs folders
+      - name: Ensure folders
         run: |
           mkdir -p docs/debs
           touch docs/.nojekyll
@@ -29,20 +30,33 @@ jobs:
         run: |
           set -eux
           cd docs
-
-          # .deb이 하나라도 있을 때만 생성
+          # Packages 생성 (debs가 비어도 빈 파일로 생성)
           if compgen -G "debs/*.deb" > /dev/null; then
-            dpkg-scanpackages ./debs > Packages
-            bzip2 -kf Packages
+            dpkg-scanpackages debs > Packages
+          else
+            : > Packages
+          fi
+          bzip2 -kf Packages
 
-            cat > aptftp.conf << 'EOF'
-            Dir { ArchiveDir "."; }
-            Default { Packages::Compress ". gzip bzip2"; }
-            BinDirectory "debs" { Packages "Packages"; }
-            APT::FTPArchive::Release::Origin "MyRepo";
-            APT::FTPArchive::Release::Label "MyRepo";
-            APT::FTPArchive::Release::Suite "stable";
-            APT::FTPArchive::Release::Codename "ios";
-            APT::FTPArchive::Release::Architectures "iphoneos-arm iphoneos-arm64 all";
-            APT::FTPArchive::Release::Components "main";
-            EOF
+          # Release(필수 헤더 포함)
+          cat > aptftp.conf << 'EOF'
+          Dir { ArchiveDir "."; }
+          Default { Packages::Compress ". gzip bzip2"; }
+          BinDirectory "debs" { Packages "Packages"; }
+          APT::FTPArchive::Release::Origin "MyRepo";
+          APT::FTPArchive::Release::Label "MyRepo";
+          APT::FTPArchive::Release::Suite "stable";
+          APT::FTPArchive::Release::Codename "ios";
+          APT::FTPArchive::Release::Architectures "iphoneos-arm iphoneos-arm64 all";
+          APT::FTPArchive::Release::Components "main";
+          EOF
+          apt-ftparchive -c=aptftp.conf release . > Release
+
+      - name: Commit & push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/Packages docs/Packages.bz2 docs/Release docs/.nojekyll || true
+          git commit -m "Build repo metadata" || echo "No changes"
+          git pull --rebase
+          git push
