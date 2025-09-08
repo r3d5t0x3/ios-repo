@@ -1,0 +1,38 @@
+name: build-apt-repo
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y dpkg-dev apt-utils bzip2 apt-transport-https gnupg
+
+      - name: Build Packages/Release
+        run: |
+          cd docs
+          # 1) Packages
+          dpkg-scanpackages ./debs > Packages
+          bzip2 -kf Packages
+          # 2) Release
+          cat > aptftp.conf << 'EOF'
+          Dir { ArchiveDir "."; }
+          Default { Packages::Compress ". gzip bzip2"; }
+          BinDirectory "debs" { Packages "Packages"; }
+          EOF
+          apt-ftparchive -c=aptftp.conf release . > Release
+
+      - name: Commit & push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/Packages docs/Packages.bz2 docs/Release
+          git commit -m "Build repo metadata" || echo "No changes"
+          git push
