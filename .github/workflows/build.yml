@@ -1,8 +1,12 @@
 name: build-apt-repo
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   workflow_dispatch:
+
+# 커밋/푸시할 권한
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -10,33 +14,35 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Ensure docs folders
+        run: |
+          mkdir -p docs/debs
+          touch docs/.nojekyll
+
       - name: Install tools
         run: |
           sudo apt-get update
           sudo apt-get install -y dpkg-dev apt-utils bzip2 apt-transport-https gnupg
 
       - name: Build Packages/Release
+        shell: bash
         run: |
+          set -eux
           cd docs
-          dpkg-scanpackages ./debs > Packages
-          bzip2 -kf Packages
-          cat > aptftp.conf << 'EOF'
-          Dir { ArchiveDir "."; }
-          Default { Packages::Compress ". gzip bzip2"; }
-          BinDirectory "debs" { Packages "Packages"; }
-          APT::FTPArchive::Release::Origin "MyRepo";
-          APT::FTPArchive::Release::Label "MyRepo";
-          APT::FTPArchive::Release::Suite "stable";
-          APT::FTPArchive::Release::Codename "ios";
-          APT::FTPArchive::Release::Architectures "iphoneos-arm";
-          APT::FTPArchive::Release::Components "main";
-          EOF
-          apt-ftparchive -c=aptftp.conf release . > Release
 
-      - name: Commit & push
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/Packages docs/Packages.bz2 docs/Release
-          git commit -m "Build repo metadata" || echo "No changes"
-          git push
+          # .deb이 하나라도 있을 때만 생성
+          if compgen -G "debs/*.deb" > /dev/null; then
+            dpkg-scanpackages ./debs > Packages
+            bzip2 -kf Packages
+
+            cat > aptftp.conf << 'EOF'
+            Dir { ArchiveDir "."; }
+            Default { Packages::Compress ". gzip bzip2"; }
+            BinDirectory "debs" { Packages "Packages"; }
+            APT::FTPArchive::Release::Origin "MyRepo";
+            APT::FTPArchive::Release::Label "MyRepo";
+            APT::FTPArchive::Release::Suite "stable";
+            APT::FTPArchive::Release::Codename "ios";
+            APT::FTPArchive::Release::Architectures "iphoneos-arm";
+            APT::FTPArchive::Release::Components "main";
+            EOF
