@@ -1,23 +1,23 @@
 Architectures: iphoneos-arm iphoneos-arm64 all
 Codename: ios
 Components: main
-Date: Mon, 08 Sep 2025 08:30:58 +0000
+Date: Mon, 08 Sep 2025 08:33:26 +0000
 Label: MyRepo
 Origin: MyRepo
 Suite: stable
 MD5Sum:
- b6b7d6c4ad6e4a358237c5670938fcbc              582 Packages
- 66df43a4a26edd82220c836c353d2a98              451 Packages.bz2
- ca719874ba35fd1fbb8ed83099ee87c1              159 Release
+ c4a655008e02e200ce996872685283a0              586 Packages
+ 436d17af0582df776038691398c1c2f4              455 Packages.bz2
+ d59e8360cd15c911cefde0014e9b2498              159 Release
 SHA1:
- a56f4b7e170f609e45b0a6f75f3eaa01c7a8f1a4              582 Packages
- 8286390000e2fe3ee28553964b697a29e35e8161              451 Packages.bz2
- ae2cd61a2cef065521c797aee2fdcd4ff2058dbd              159 Release
+ b21efb9fc1828bb62b1682b33c7a50c706a57069              586 Packages
+ 58f5067d01e3e3516cee605e9dd14d404f006d8d              455 Packages.bz2
+ 99e08efa7bdeb5421011c40a5363adc808ec9b42              159 Release
 SHA256:
- 0ffb063481a0d5ea06fff18a9523cc45470b32e286c01e3436be2c501f74f4f6              582 Packages
- 78b2a9ac3e096a3ec076cf6ab5fd1e0b1cb982b52ba7e267670af701e60e829d              451 Packages.bz2
- 784d06349160d27a3fb90a2f2e800f5ef2b9d2915030d808722e299d4ce27cdd              159 Release
+ 1bb6c401e2c2b2a86fe71b7d5cedc5a095b860e03b97dfbdfdc21a9264fe0979              586 Packages
+ 48803dd032d55cfed68e7e47440819f54c1d1aea4ff18ff142ece690366674c6              455 Packages.bz2
+ 53b098888ba0ba88f3d4b5d0abdc7321b86877c957b4da4126911da7e1262a56              159 Release
 SHA512:
- 76a21579d6aa2ff02c4258e1f638bb0ca3dfd403e8be04792d7dcbdde3b5af3b512ed21af36abf638fc08f56d7366e5cf91e5b072c5c09718a9f085b624dac30              582 Packages
- 70797bbfe450dfff07eb211bb1c181e649b5f1608a020d513252ff69b660a7c4b2add38b561bf48ac02803b7ab89b154d84a853e8d67bddb9efc7b5b514890fd              451 Packages.bz2
- 2ae54c39fa680270199fb21509199d0666aec2e51cc58909c07f969ed8cb314e7eda9f56d378e2a19a9063f2443b0f7e6e9f8817b27ec6899b368dd031269d44              159 Release
+ 20dd6eedf3f1793b74828dc40d91753a6fbd8410f16a84b25a81f7f0899ecb74267033a6b38272d041ddfa9b275e9231e24f9d8480e5b083022b28bc48f1c652              586 Packages
+ 72394770acef539dc4b4d2708e952026d09be443a68c18c4825c0d8a6660ad7da41d2d4be4e34a046ff2eec38a91140e20513505989be03dc2eb968f7c294206              455 Packages.bz2
+ 55f659e47dc2ae42923d0a583c2aeea1435606be6c14aa309e7b2e19e26f1209bf1d92bb693c6be78ac373e74801466d4b52d3e0112179daf7ec3626865e95f5              159 Release

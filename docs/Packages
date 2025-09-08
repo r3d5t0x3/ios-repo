@@ -1,14 +1,14 @@
 Package: re.frida.server
 Version: 16.4.8
-Architecture: iphoneos-arm
+Architecture: iphoneos-arm64
 Maintainer: Ole André Vadla Ravnås <oleavr@nowsecure.com>
-Installed-Size: 54012
+Installed-Size: 54020
 Conflicts: re.frida.server64
-Filename: debs/frida_16.4.8_iphoneos-arm.deb
-Size: 16572292
-MD5sum: 2c60b23ea02f59609fb2b6dde4e7fb65
-SHA1: 370b2999f14ed7beb264cb8c13a0afa96dcd7203
-SHA256: 6870d3c39cf008f5bf0f460d4909b9c518a5215b79249c3fad7d02527f2f2908
+Filename: debs/frida_16.4.8_iphoneos-arm64.deb
+Size: 16570164
+MD5sum: 4af0ca91d401339781a0954815d1f913
+SHA1: d7d6be7d349d94ead7fdcc2f0646d0c0ad811e40
+SHA256: 0797cf2acb3a304edb6eb032b40165af9f077712484178b3d33aa4bd0113a997
 Section: Development
 Priority: optional
 Homepage: https://frida.re/

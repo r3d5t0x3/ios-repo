@@ -1,9 +1,3 @@
-== docs/debs/frida_16.4.8_iphoneos-arm.deb ==
- new Debian package, version 2.0.
- Package: re.frida.server
- Version: 16.4.8
- Architecture: iphoneos-arm
-
 == docs/debs/frida_16.4.8_iphoneos-arm64.deb ==
  new Debian package, version 2.0.
  Package: re.frida.server
