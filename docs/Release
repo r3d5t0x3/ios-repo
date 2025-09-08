@@ -1,23 +1,23 @@
 Architectures: iphoneos-arm iphoneos-arm64 all
 Codename: ios
 Components: main
-Date: Mon, 08 Sep 2025 08:07:55 +0000
+Date: Mon, 08 Sep 2025 08:16:08 +0000
 Label: MyRepo
 Origin: MyRepo
 Suite: stable
 MD5Sum:
  b6b7d6c4ad6e4a358237c5670938fcbc              582 Packages
  66df43a4a26edd82220c836c353d2a98              451 Packages.bz2
- ffc68b42d9112383ab9707e11e8d9678              159 Release
+ a74177a0bf5e1a20843e71e29f010ed7              159 Release
 SHA1:
  a56f4b7e170f609e45b0a6f75f3eaa01c7a8f1a4              582 Packages
  8286390000e2fe3ee28553964b697a29e35e8161              451 Packages.bz2
- e4aeaca0dd1dcf4db784796c0c351b1478e6a455              159 Release
+ a16a323fdf0d8fb19ad554efc8b04a04fb4c8071              159 Release
 SHA256:
  0ffb063481a0d5ea06fff18a9523cc45470b32e286c01e3436be2c501f74f4f6              582 Packages
  78b2a9ac3e096a3ec076cf6ab5fd1e0b1cb982b52ba7e267670af701e60e829d              451 Packages.bz2
- a805643a4488e0cf2af49c0b55fe0c499028bda5c9b863ba6d5544af83a7df68              159 Release
+ cb5d229223662c2188e57effa3feff76c9e5ee741dab054b3383fd76e19fbe53              159 Release
 SHA512:
  76a21579d6aa2ff02c4258e1f638bb0ca3dfd403e8be04792d7dcbdde3b5af3b512ed21af36abf638fc08f56d7366e5cf91e5b072c5c09718a9f085b624dac30              582 Packages
  70797bbfe450dfff07eb211bb1c181e649b5f1608a020d513252ff69b660a7c4b2add38b561bf48ac02803b7ab89b154d84a853e8d67bddb9efc7b5b514890fd              451 Packages.bz2
- a1183a8e6311aef581b5d6c8031b7f40a8875bc540d6510633aa1e14a29da58d54029f683a58cfbeb9dc232519909aa6d868c167b1c167977a978c702e27a0f0              159 Release
+ f2fe92a38793463a173044492435359e58108baa72a64ed7dd4b9a302a67ab0c46ba1a533242b32e775ef86e85949d513e5a4c362962d47d0916cb7a60deec1c              159 Release
