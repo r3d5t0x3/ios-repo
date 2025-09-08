@@ -18,14 +18,18 @@ jobs:
       - name: Build Packages/Release
         run: |
           cd docs
-          # 1) Packages
           dpkg-scanpackages ./debs > Packages
           bzip2 -kf Packages
-          # 2) Release
           cat > aptftp.conf << 'EOF'
           Dir { ArchiveDir "."; }
           Default { Packages::Compress ". gzip bzip2"; }
           BinDirectory "debs" { Packages "Packages"; }
+          APT::FTPArchive::Release::Origin "MyRepo";
+          APT::FTPArchive::Release::Label "MyRepo";
+          APT::FTPArchive::Release::Suite "stable";
+          APT::FTPArchive::Release::Codename "ios";
+          APT::FTPArchive::Release::Architectures "iphoneos-arm";
+          APT::FTPArchive::Release::Components "main";
           EOF
           apt-ftparchive -c=aptftp.conf release . > Release
 
