@@ -4,6 +4,7 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Actions가 리포에 커밋/푸시할 권한
 permissions:
   contents: write
 
@@ -16,12 +17,16 @@ jobs:
           fetch-depth: 0
 
       - name: Ensure folders
+        shell: bash
         run: |
+          set -eux
           mkdir -p docs/debs
           touch docs/.nojekyll
 
       - name: Install tools
+        shell: bash
         run: |
+          set -eux
           sudo apt-get update
           sudo apt-get install -y dpkg-dev apt-utils bzip2 apt-transport-https gnupg
 
@@ -39,7 +44,7 @@ jobs:
           fi
           bzip2 -kf Packages
 
-          # aptftp.conf 를 printf로 생성 (heredoc 사용 안 함)
+          # aptftp.conf 생성 (heredoc 대신 printf로 안전하게 작성)
           printf '%s\n' \
             'Dir { ArchiveDir "."; }' \
             'Default { Packages::Compress ". gzip bzip2"; }' \
@@ -54,12 +59,20 @@ jobs:
 
           apt-ftparchive -c=aptftp.conf release . > Release
 
-
-      - name: Commit & push
+      - name: Commit & push (conflict-safe)
+        shell: bash
         run: |
+          set -eux
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # 원격 최신을 기반으로 베이스 정렬 (초기 리포여도 에러 없이 진행)
+          git fetch origin main || true
+          git reset --soft origin/main || true
+
           git add docs/Packages docs/Packages.bz2 docs/Release docs/.nojekyll || true
           git commit -m "Build repo metadata" || echo "No changes"
-          git pull --rebase
-          git push
+
+          # 리베이스 충돌 방지
+          git pull --rebase origin main || true
+          git push origin HEAD:main
