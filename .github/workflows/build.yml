@@ -43,6 +43,6 @@ jobs:
             APT::FTPArchive::Release::Label "MyRepo";
             APT::FTPArchive::Release::Suite "stable";
             APT::FTPArchive::Release::Codename "ios";
-            APT::FTPArchive::Release::Architectures "iphoneos-arm";
+            APT::FTPArchive::Release::Architectures "iphoneos-arm iphoneos-arm64 all";
             APT::FTPArchive::Release::Components "main";
             EOF
