@@ -36,7 +36,7 @@ jobs:
           set -eux
           cd docs
 
-          # Packages (debs가 비어도 빈 파일로 유지)
+          # Packages (debs가 비어도 빈 파일 유지)
           if compgen -G "debs/*.deb" > /dev/null; then
             dpkg-scanpackages debs > Packages
           else
@@ -44,7 +44,7 @@ jobs:
           fi
           bzip2 -kf Packages
 
-          # aptftp.conf 생성 (heredoc 대신 printf로 안전하게 작성)
+          # aptftp.conf 생성 (heredoc 대신 printf)
           printf '%s\n' \
             'Dir { ArchiveDir "."; }' \
             'Default { Packages::Compress ". gzip bzip2"; }' \
@@ -59,6 +59,20 @@ jobs:
 
           apt-ftparchive -c=aptftp.conf release . > Release
 
+      - name: Write debug summary (list .deb archs)
+        shell: bash
+        run: |
+          set -eux
+          : > docs/BUILD_SUMMARY.txt
+          for f in docs/debs/*.deb; do
+            [ -e "$f" ] || continue
+            {
+              echo "== $f =="
+              dpkg-deb -I "$f" | egrep -i 'Package|Version|Architecture' || true
+              echo
+            } >> docs/BUILD_SUMMARY.txt
+          done
+
       - name: Commit & push (conflict-safe)
         shell: bash
         run: |
@@ -66,13 +80,12 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # 원격 최신을 기반으로 베이스 정렬 (초기 리포여도 에러 없이 진행)
+          # 원격 최신을 기준으로 정렬 (충돌 방지)
           git fetch origin main || true
           git reset --soft origin/main || true
 
-          git add docs/Packages docs/Packages.bz2 docs/Release docs/.nojekyll || true
+          git add docs/Packages docs/Packages.bz2 docs/Release docs/.nojekyll docs/BUILD_SUMMARY.txt || true
           git commit -m "Build repo metadata" || echo "No changes"
 
-          # 리베이스 충돌 방지
           git pull --rebase origin main || true
           git push origin HEAD:main
